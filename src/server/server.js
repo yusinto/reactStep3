@@ -1,7 +1,12 @@
 import Express from 'express';
+import Webpack from 'webpack';
+import WebpackConfig from '../../webpack.config.dev';
+import WebpackDevMiddleware from 'webpack-dev-middleware';
+import WebPackHotMiddleware from 'webpack-hot-middleware';
 
 const PORT = 3000;
 const app = Express();
+const webpackCompiler = Webpack(WebpackConfig);
 const htmlString = `<!DOCTYPE html>
     <html>
          <head>
@@ -13,7 +18,11 @@ const htmlString = `<!DOCTYPE html>
           </body>
     </html>`;
 
-app.use('/dist', Express.static('dist'));
+app.use(WebpackDevMiddleware(webpackCompiler, {
+    publicPath: WebpackConfig.output.publicPath,
+    noInfo: true
+}));
+app.use(WebPackHotMiddleware(webpackCompiler));
 
 app.use((req, res) => {
     res.end(htmlString);
