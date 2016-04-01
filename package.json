@@ -4,6 +4,7 @@
   "description": "Step 3 to react: Speed dev with hot module replacement",
   "main": "./src/server/index.js",
   "scripts": {
+    "prestart": "webpack --config webpack.config.dev.js --progress",
     "start": "node src/server/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -38,13 +39,6 @@
   },
   "devDependencies": {
     "babel-loader": "^6.2.4",
-    "babel-plugin-react-transform": "^2.0.2",
-    "babel-preset-react-hmre": "^1.1.1",
-    "react-transform-catch-errors": "^1.0.2",
-    "react-transform-hmr": "^1.0.4",
-    "redbox-react": "^1.2.2",
-    "webpack": "^2.1.0-beta",
-    "webpack-dev-middleware": "^1.6.1",
-    "webpack-hot-middleware": "^2.10.0"
+    "webpack": "^2.1.0-beta"
   }
 }
