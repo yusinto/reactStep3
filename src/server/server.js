@@ -6,7 +6,6 @@ import WebPackHotMiddleware from 'webpack-hot-middleware';
 
 const PORT = 3000;
 const app = Express();
-const webpackCompiler = Webpack(WebpackConfig);
 const htmlString = `<!DOCTYPE html>
     <html>
          <head>
@@ -18,11 +17,22 @@ const htmlString = `<!DOCTYPE html>
           </body>
     </html>`;
 
+// create a webpack instance from our dev config
+const webpackCompiler = Webpack(WebpackConfig);
+
+// Use webpack dev middleware to bundle our app on the fly and serve it
+// on publicPath. Turn off verbose webpack output in our server console
+// by setting noInfo: true
 app.use(WebpackDevMiddleware(webpackCompiler, {
     publicPath: WebpackConfig.output.publicPath,
     noInfo: true
 }));
+
+// instruct our webpack instance to use webpack hot middleware
 app.use(WebPackHotMiddleware(webpackCompiler));
+
+// NOTE: delete express static middleware for dist. We don't need that
+// anymore because webpack-dev-middleware serves our bundle.js from memory
 
 app.use((req, res) => {
     res.end(htmlString);
